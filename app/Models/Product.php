@@ -15,4 +15,7 @@ class Product extends Model
     // misalkan kolom PKnya bukan id;
     // protected $primaryKey = 'id_product';
 
+    public function variants(){
+        return $this->hasMany(Variant::class, 'id_produk');
+    }
 }

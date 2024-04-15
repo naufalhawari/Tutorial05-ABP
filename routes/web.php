@@ -8,10 +8,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('form-mhs');
-});
-
 Route::get('/lihat-data', [SiteController::class, 'view_data']);
 
-Route::resource('product', ProductController::class);
+Route::view('/login', 'form_login')->name('login');
+Route::post('/auth', [SiteController::class, 'autentikasi']);
+Route::get('/logout', [SiteController::class, 'logout']);
+
+Route::resource('product', ProductController::class)->middleware('auth');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 
 use Illuminate\Http\Request;
+// use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class ProductController extends Controller
 {
@@ -15,8 +16,10 @@ class ProductController extends Controller
     public function index()
     {
         //
-
+        
         $prods = Product::get();
+        if (request()->segment(1) == 'api') return response()->json($prods);
+        
         return view('view_product', [
             'title' => 'Daftar Produk',
             'data' => $prods,
@@ -39,6 +42,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'name' => 'required|min:4',
+            'price' => 'required|integer|min:1000000',
+        ]);
+
         $prod = new Product;
 
         $prod->name = $request->name;
